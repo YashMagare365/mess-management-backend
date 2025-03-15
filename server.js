@@ -59,7 +59,7 @@ app.post("/signup", async (req, res) => {
   try {
     const { email, password, displayName, address } = req.body;
 
-    if (!email || !password || !displayName || address) {
+    if (!email || !password || !displayName || !address) {
       return res.status(400).json({ error: "All fields are required!" });
     }
 
