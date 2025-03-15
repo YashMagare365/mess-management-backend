@@ -93,22 +93,32 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+// 📌 Route to check if a user exists
 app.post("/check-user", async (req, res) => {
   const { email } = req.body;
 
   try {
-    // Check if the user exists in your database
-    const user = await User.findOne({ email }); // Example using Mongoose (MongoDB)
-    if (user) {
+    // 🔹 Check if the user exists in Firebase Authentication
+    const userRecord = await auth.getUserByEmail(email);
+
+    if (userRecord) {
+      // User exists in Firebase Authentication
       return res.json({ exists: true });
     } else {
+      // User does not exist in Firebase Authentication
       return res.json({ exists: false });
     }
   } catch (error) {
-    console.error("Error checking user:", error);
-    res
-      .status(500)
-      .json({ message: "An error occurred while checking the user." });
+    if (error.code === "auth/user-not-found") {
+      // User does not exist
+      return res.json({ exists: false });
+    } else {
+      // Other errors
+      console.error("❌ Error checking user:", error);
+      return res
+        .status(500)
+        .json({ message: "An error occurred while checking the user." });
+    }
   }
 });
 
