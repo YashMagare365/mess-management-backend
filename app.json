@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "0553d0ae-d703-4d3b-8cd8-a0f4d6613e75"
+      }
+    },
+    "android": {
+      "package": "com.yash9890538880.messmanagementbackend"
+    }
+  }
+}
