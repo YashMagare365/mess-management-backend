@@ -57,9 +57,9 @@ const setAdmin = async (uid) => {
 // 📌 Route to sign up a new admin
 app.post("/signup", async (req, res) => {
   try {
-    const { email, password, displayName } = req.body;
+    const { email, password, displayName, address } = req.body;
 
-    if (!email || !password || !displayName) {
+    if (!email || !password || !displayName || address) {
       return res.status(400).json({ error: "All fields are required!" });
     }
 
@@ -68,6 +68,7 @@ app.post("/signup", async (req, res) => {
       email,
       password,
       displayName,
+      address,
     });
 
     // 🔹 Assign admin privileges
@@ -77,6 +78,7 @@ app.post("/signup", async (req, res) => {
     await db.ref(`/admins/${userRecord.uid}`).set({
       email,
       displayName,
+      address,
       createdAt: new Date().toISOString(),
     });
 
