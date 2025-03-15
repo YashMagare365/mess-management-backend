@@ -93,6 +93,25 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+app.post("/check-user", async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    // Check if the user exists in your database
+    const user = await User.findOne({ email }); // Example using Mongoose (MongoDB)
+    if (user) {
+      return res.json({ exists: true });
+    } else {
+      return res.json({ exists: false });
+    }
+  } catch (error) {
+    console.error("Error checking user:", error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while checking the user." });
+  }
+});
+
 // 📌 Create Order API (Razorpay)
 app.post("/create-order", async (req, res) => {
   try {
